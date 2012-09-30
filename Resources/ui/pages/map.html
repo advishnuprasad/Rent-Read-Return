@@ -1,0 +1,120 @@
+
+<html>
+  <head>
+    <title>JustBooks Store Locations</title>
+  <meta name="viewport" content="user-scalable=yes, width=device-width, initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 10.0" /> 
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+    <style type="text/css">
+      html, body, #map_canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+
+/*
+Whitefield  12.9558 77.7217
+JP Nagar  12.9011 77.5817
+Indira Nagar  12.9701 77.6383
+
+JPN Dollars Colony  12.8923 77.5981
+Sarjapur Road 12.9129 77.6802
+HSR Layout  12.9150 77.6517
+Jaya Nagar  12.9230 77.5848
+
+Bellandur-ORR 12.9265 77.6697
+
+RMV Stage II  13.0280 77.5734
+
+Malleswaram 13.0067 77.5643
+Vijaya Bank layout  12.8915 77.6082
+Kalyan Nagar  13.0147 77.6462
+Frazer Town 13.0004 77.6174
+Koramangala 12.9259 77.6286
+
+Vijaya Nagar  12.9604 77.5301
+AECS Layout 12.9641 77.7136
+RajaRajeshwari Nagar  12.9330 77.5158
+Sahakar Nagar 13.0640 77.5895
+Yelahanka 13.1004 77.5810
+Vidyaranyapura  13.0809 77.5596
+Banashankari  12.9232 77.5551
+*/
+	  var neighborhoods = [
+	    new google.maps.LatLng(12.9558, 77.7217),
+	    new google.maps.LatLng(12.9011, 77.5817),
+	    new google.maps.LatLng(12.9701, 77.6383),
+	    new google.maps.LatLng(12.8923, 77.5981),
+	
+	    new google.maps.LatLng(12.9129, 77.6802),
+	    new google.maps.LatLng(12.9150, 77.6517),
+	    new google.maps.LatLng(13.0280, 77.5734),
+	    new google.maps.LatLng(13.0004, 77.6174),
+	    new google.maps.LatLng(13.0640, 77.5895),
+	    new google.maps.LatLng(13.0809, 77.5596),
+	    new google.maps.LatLng(12.9232, 77.5551)
+	
+	  ];
+	
+	  var markers = [];
+	  var iterator = 0;
+	
+	  var map;
+	
+	  function dropMarkers() {
+	    for (var i = 0; i < neighborhoods.length; i++) {
+	      setTimeout(function() {
+	        addMarker();
+	      }, i * 200);
+	    }
+	  }
+	
+	  function addMarker() {
+	    markers.push(new google.maps.Marker({
+	      position: neighborhoods[iterator],
+	      map: map,
+	      draggable: false,
+	      animation: google.maps.Animation.DROP
+	    }));
+	    iterator++;
+	  }
+  
+      Ti.App.addEventListener('location.updated', initialize);
+      
+      function initialize(_coords) {
+        //alert(_coords.latitude + ' & ' + _coords.longitude);
+        _coords =  { latitude: 12.971599, longitude: 77.594563 }
+
+        var mapOptions = {
+          zoom: 12,
+          center: new google.maps.LatLng(_coords.latitude, _coords.longitude),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        map = new google.maps.Map(
+                  document.getElementById('map_canvas'),
+                  mapOptions);
+       
+        
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(_coords.latitude, _coords.longitude), 
+          map: map,
+          title:"You are here!",
+          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+        });
+
+       
+        dropMarkers();
+      }
+      
+    </script>
+
+  </head>
+  <body>
+    <div id="map_canvas">
+    	loading...
+    </div>
+  </body>
+</html>
